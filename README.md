@@ -83,6 +83,45 @@ nest g class mocking/class/category.class --no-spec --flat
 nest g class mocking/class/images.class --no-spec --flat
 nest g class mocking/class/products.class --no-spec --flat
 ```
+Agregando contenido a los archivos 
+
+### Imagenes
+```typescript
+export class ImagesClass {
+  idImages: string;
+  name: string;
+  url: string;
+}
+```
+### Categorias
+```typescript
+export class CategoryClass {
+  idCategory: string;
+  name: string;
+}
+
+```
+
+### Productos
+```typescript
+import { CategoryClass } from './category.class';
+import { ImagesClass } from './images.class';
+
+export class ProductsClass {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  stock: number;
+  brand: string;
+  images: ImagesClass[];
+  review: string;
+  available: boolean;
+  category: CategoryClass[];
+}
+
+```
+
 
 ### Paso 1.7: generando interfaces 
 
@@ -92,6 +131,46 @@ nest g interface mocking/interface/category.interface --no-spec --flat
 nest g interface mocking/interface/images.interface  --no-spec --flat
 nest g interface mocking/interface/products.interface  --no-spec --flat
 ```
+Agregando contenido a los archivos 
+
+### Imagenes
+```typescript
+export interface ImagesInterface {
+  idImages: string;
+  name: string;
+  url: string;
+}
+
+```
+### Categorias
+```typescript
+export interface CategoryInterface {
+  idCategory: string;
+  name: string;
+}
+
+```
+
+### Productos
+```typescript
+import { CategoryInterface } from './category.interface.interface';
+import { ImagesInterface } from './images.interface.interface';
+
+export interface ProductsInterface {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  stock: number;
+  brand: string;
+  images: ImagesInterface[];
+  review: string;
+  available: boolean;
+  category: CategoryInterface[];
+}
+
+```
+
 
 ### Paso 1.8: generando dto 
 
