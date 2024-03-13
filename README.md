@@ -179,7 +179,7 @@ Dentro del directorio del proyecto, crearemos la carpeta class crearemos  dos ar
 ```bash
 nest g class mocking/dto/id-mocking.dto --no-spec --flat
 nest g class mocking/dto/images.dto --no-spec --flat
-nest g class mocking/dto/categories.dto --no-spec --flat
+nest g class mocking/dto/category.dto --no-spec --flat
 ```
 
 ### Paso 1.9: instalando dependencias 
