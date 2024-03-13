@@ -123,13 +123,13 @@ export class MockingService {
 
   update(id: string, updateMockingDto: UpdateMockingDto) {
     const { images, category, ...otros } = updateMockingDto;
-    const allImages: ImagesInterface[] = images.map((item) => {
+    const allImages: ImagesInterface[] = images?.map((item) => {
       return {
         idImages: uuidv4(),
         ...item,
       };
     });
-    const allCategories: CategoryInterface[] = category.map((item) => {
+    const allCategories: CategoryInterface[] = category?.map((item) => {
       return {
         idCategory: uuidv4(),
         ...item,
@@ -148,6 +148,7 @@ export class MockingService {
         return item;
       }
     });
+
     const product = this.products.filter((item) => item.id === id);
     const result = product.length === 0 ? null : product[0];
     if (!result) {
