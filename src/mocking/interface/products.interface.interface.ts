@@ -1,5 +1,5 @@
+import { ImagesDto } from '../dto/images.dto';
 import { CategoryInterface } from './category.interface.interface';
-import { ImagesInterface } from './images.interface.interface';
 
 export interface ProductsInterface {
   id: string;
@@ -8,7 +8,7 @@ export interface ProductsInterface {
   price: number;
   stock: number;
   brand: string;
-  images: ImagesInterface[];
+  images: ImagesDto[];
   review: string;
   available: boolean;
   category: CategoryInterface[];

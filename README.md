@@ -82,6 +82,7 @@ Dentro del directorio del proyecto, crearemos la carpeta class crearemos  dos ar
 nest g class mocking/class/category.class --no-spec --flat
 nest g class mocking/class/images.class --no-spec --flat
 nest g class mocking/class/products.class --no-spec --flat
+nest g class mocking/class/categories.class --no-spec --flat
 ```
 Agregando contenido a los archivos 
 
@@ -172,11 +173,13 @@ export interface ProductsInterface {
 ```
 
 
-### Paso 1.8: generando dto 
+### Paso 1.8: generando dtos 
 
 Dentro del directorio del proyecto, crearemos la carpeta class crearemos  dos archivos 
 ```bash
 nest g class mocking/dto/id-mocking.dto --no-spec --flat
+nest g class mocking/dto/images.dto --no-spec --flat
+nest g class mocking/dto/categories.dto --no-spec --flat
 ```
 
 ### Paso 1.9: instalando dependencias 
@@ -343,5 +346,47 @@ constructor() {
   }
     //CRUD
 }
-```
 
+```
+# Video 4
+### Paso 4.1: Creando Personalizando Dtos
+
+```typescript
+import { ImagesDto } from './images.dto';
+
+export class CreateMockingDto {
+  readonly name: string;
+  readonly description: string;
+  readonly price: number;
+  readonly images: ImagesDto[];
+  readonly review: string;
+}
+
+
+```
+Imagen 
+
+```typescript
+export class ImagesDto {
+  readonly name: string;
+  readonly url: string;
+}
+```
+# Video 4
+### Paso 3.1: Servicio mocking.service.ts  Iniciando con el CRUD metodo create
+
+```typescript
+//CRUD
+  create(createMockingDto: CreateMockingDto) {
+     const { images, ...otro } = createProductDto;
+    const newImages = images;
+
+    const modifiedProduct = {
+      ...this.newProduct,
+      ...otro,
+      images: [newImages],
+    };
+    //this.products.push(modifiedProduct);
+    return ' createProductDto';
+  }
+```

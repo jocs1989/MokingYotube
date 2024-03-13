@@ -81,11 +81,32 @@ export class MockingService {
   }
   //CRUD
   create(createMockingDto: CreateMockingDto) {
-    return 'This action adds a new mocking';
+    const { images, category, ...otro } = createMockingDto;
+
+    const allImages: ImagesInterface[] = images.map((item) => {
+      return {
+        idImages: uuidv4(),
+        ...item,
+      };
+    });
+    const allCategories: CategoryInterface[] = category.map((item) => {
+      return {
+        idCategory: uuidv4(),
+        ...item,
+      };
+    });
+
+    const modifiedProduct = {
+      ...otro,
+      images: allImages,
+      category: allCategories,
+    };
+    this.products.push(modifiedProduct);
+    return modifiedProduct;
   }
 
   findAll() {
-    return `This action returns all mocking`;
+    return this.products;
   }
 
   findOne(id: number) {
