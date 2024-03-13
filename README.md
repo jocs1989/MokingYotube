@@ -140,7 +140,7 @@ export interface ImagesInterface {
   idImages: string;
   name: string;
   url: string;
-}
+}****
 
 ```
 ### Categorias
@@ -349,9 +349,24 @@ constructor() {
 
 ```
 # Video 4
+
 ### Paso 4.1: Creando Personalizando Dtos
 
 ```typescript
+import { CategoryDto } from './category.dto';
+import { ImagesDto } from './images.dto';
+
+export class CreateMockingDto {
+  name: string;
+  description: string;
+  price: number;
+  stock: number;
+  brand: string;
+  category: CategoryDto[];
+  review: string;
+  available: boolean;
+  images: ImagesDto[];
+}
 
 ```
 Imagen 
@@ -362,21 +377,119 @@ export class ImagesDto {
   readonly url: string;
 }
 ```
+Category 
+
+```typescript
+export interface CategoryInterface {
+  idCategory: string;
+  name: string;
+}
+
+```
+
 # Video 4
-### Paso 3.1: Servicio mocking.service.ts  Iniciando con el CRUD metodo create
+### Paso 4.2: Servicio mocking.service.ts  Iniciando con el CRUD metodo create
 
 ```typescript
 //CRUD
-  create(createMockingDto: CreateMockingDto) {
-     const { images, ...otro } = createProductDto;
-    const newImages = images;
+    create(createMockingDto: CreateMockingDto) {
+    const { images, category, ...otro } = createMockingDto;
+
+    const allImages: ImagesInterface[] = images.map((item) => {
+      return {
+        idImages: uuidv4(),
+        ...item,
+      };
+    });
+    const allCategories: CategoryInterface[] = category.map((item) => {
+      return {
+        idCategory: uuidv4(),
+        ...item,
+      };
+    });
 
     const modifiedProduct = {
-      ...this.newProduct,
       ...otro,
-      images: [newImages],
+      images: allImages,
+      category: allCategories,
     };
-    //this.products.push(modifiedProduct);
-    return ' createProductDto';
+    this.products.push(modifiedProduct);
+    return modifiedProduct;
+  }
+
+```
+# Video 5
+### Paso 4.3: Servicio mocking.service.ts  Iniciando con el CRUD metodo find y findOne
+
+Metodo CRUD find
+```typescript
+  findAll() {
+    return this.products;
+  }
+
+```
+metodo CRUD findOne
+```typescript
+
+  findOne(id: string) {
+    const product =
+      this.products.filter((item) => item.id === id).length === 0
+        ? null
+        : this.products.filter((item) => item.id == id)[0];
+    if (!product) {
+      throw new NotFoundException('Product not Exist');
+    }
+    return product;
+  }
+```
+metodo CRUD update
+```typescript
+update(id: string, updateMockingDto: UpdateMockingDto) {
+    const { images, category, ...otros } = updateMockingDto;
+    const allImages: ImagesInterface[] = images?.map((item) => {
+      return {
+        idImages: uuidv4(),
+        ...item,
+      };
+    });
+    const allCategories: CategoryInterface[] = category?.map((item) => {
+      return {
+        idCategory: uuidv4(),
+        ...item,
+      };
+    });
+
+    this.products = this.products.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          ...otros,
+          images: allImages,
+          category: allCategories,
+        };
+      } else {
+        return item;
+      }
+    });
+
+    const product = this.products.filter((item) => item.id === id);
+    const result = product.length === 0 ? null : product[0];
+    if (!result) {
+      throw new NotFoundException('Product not Exist');
+    }
+    return result;
+  }
+
+```
+metodo CRUD remove
+```typescript
+  remove(id: string) {
+    const index = this.products.findIndex((item) => item.id === id);
+    if (index === -1) {
+      throw new NotFoundException('Product not Exist');
+    }
+    const productClear = this.products.filter((item) => item.id === id)[0];
+    this.products.splice(index, 1);
+    return productClear;
   }
 ```
