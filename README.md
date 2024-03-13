@@ -352,16 +352,6 @@ constructor() {
 ### Paso 4.1: Creando Personalizando Dtos
 
 ```typescript
-import { ImagesDto } from './images.dto';
-
-export class CreateMockingDto {
-  readonly name: string;
-  readonly description: string;
-  readonly price: number;
-  readonly images: ImagesDto[];
-  readonly review: string;
-}
-
 
 ```
 Imagen 

@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 //https://www.npmjs.com/package/uuid
 import { faker } from '@faker-js/faker/locale/es_MX';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { CreateMockingDto } from './dto/create-mocking.dto';
 import { UpdateMockingDto } from './dto/update-mocking.dto';
@@ -96,7 +96,8 @@ export class MockingService {
       };
     });
 
-    const modifiedProduct = {
+    const modifiedProduct: ProductsInterface = {
+      id: uuidv4(),
       ...otro,
       images: allImages,
       category: allCategories,
@@ -109,15 +110,59 @@ export class MockingService {
     return this.products;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} mocking`;
+  findOne(id: string) {
+    const product =
+      this.products.filter((item) => item.id === id).length === 0
+        ? null
+        : this.products.filter((item) => item.id == id)[0];
+    if (!product) {
+      throw new NotFoundException('Product not Exist');
+    }
+    return product;
   }
 
-  update(id: number, updateMockingDto: UpdateMockingDto) {
-    return `This action updates a #${id} mocking`;
+  update(id: string, updateMockingDto: UpdateMockingDto) {
+    const { images, category, ...otros } = updateMockingDto;
+    const allImages: ImagesInterface[] = images.map((item) => {
+      return {
+        idImages: uuidv4(),
+        ...item,
+      };
+    });
+    const allCategories: CategoryInterface[] = category.map((item) => {
+      return {
+        idCategory: uuidv4(),
+        ...item,
+      };
+    });
+
+    this.products = this.products.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          ...otros,
+          images: allImages,
+          category: allCategories,
+        };
+      } else {
+        return item;
+      }
+    });
+    const product = this.products.filter((item) => item.id === id);
+    const result = product.length === 0 ? null : product[0];
+    if (!result) {
+      throw new NotFoundException('Product not Exist');
+    }
+    return result;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} mocking`;
+  remove(id: string) {
+    const index = this.products.findIndex((item) => item.id === id);
+    if (index === -1) {
+      throw new NotFoundException('Product not Exist');
+    }
+    const productClear = this.products.filter((item) => item.id === id)[0];
+    this.products.splice(index, 1);
+    return productClear;
   }
 }

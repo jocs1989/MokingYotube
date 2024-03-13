@@ -1,15 +1,14 @@
-import { CategoryInterface } from '../interface/category.interface.interface';
-import { ImagesInterface } from '../interface/images.interface.interface';
+import { CategoryDto } from './category.dto';
+import { ImagesDto } from './images.dto';
 
 export class CreateMockingDto {
-  id: string;
   name: string;
   description: string;
   price: number;
   stock: number;
   brand: string;
-  images: ImagesInterface[];
+  category: CategoryDto[];
   review: string;
   available: boolean;
-  category: CategoryInterface[];
+  images: ImagesDto[];
 }
